@@ -1,12 +1,14 @@
 import { useState, useCallback, startTransition } from 'react';
-import { Button } from '@/components/ui/button'; 
-import { TransactionForm } from "./transaction-form";
+import { Button } from '@/components/ui/button';
+import { TransactionForm } from "./components/transaction-form";
 import { getAccountQuery } from '@/api/__generated__/getAccountQuery.graphql';
 import { GetAccountQuery } from '@/api/queries/get-account';
 import { useLazyLoadQuery } from 'react-relay';
-import { AccountTransactionsData, TransactionsTable } from './transactions-table';
+import { AccountTransactionsData, TransactionsTable } from './components/transactions-table';
 import { useAuth } from '@/hooks/use-auth';
 import { useNavigate } from 'react-router';
+import { AccountInfo } from './components/account-info';
+import { AccountTransactionsTable } from './components/test-table';
 
 export function Account() {
   const navigate = useNavigate();
@@ -16,10 +18,7 @@ export function Account() {
 
   const refresh = useCallback(() => {
     startTransition(() => {
-      // @ts-expect-error - Type error
-      // Ref: https://relay.dev/docs/guided-tour/refetching/refreshing-queries/
       setRefreshedQueryOptions(prev => ({
-        // @ts-expect-error - expected
         fetchKey: (prev?.fetchKey ?? 0) + 1,
         fetchPolicy: 'network-only',
       }));
@@ -30,49 +29,32 @@ export function Account() {
     GetAccountQuery,
     { accountNumber: user!.accountNumber! },
     refreshedQueryOptions ?? {}
-    
   );
 
   const transactions = getAccount?.transactions ?? [];
 
   const handleLogout = () => {
     localStorage.clear();
-
     navigate('/');
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="bg-[#0a0a0a] text-white flex items-center p-4 rounded-b-lg shadow-md fixed top-0 left-0 right-0" style={{ height: '60px', zIndex: 1 }}>
-        <Button
-          onClick={() => setView('form')}
-          className="text-white mr-4 bg-transparent"
-        >
-          New Transaction
-        </Button>
-        <Button
-          onClick={() => setView('history')}
-          className="text-white mr-4 bg-transparent"
-        >
-          History
-        </Button>
-        <Button
-          onClick={handleLogout}
-          className="bg-white text-black ml-auto"
-        >
-          Log Out
-        </Button>
+        <Button onClick={handleLogout} className="bg-white text-black ml-auto md: ml-0">Log Out</Button>
       </div>
-      <div className="flex-grow p-4 pt-16">
-        <div className="max-w-[600px] mx-auto">
-          {view === 'form' ? (
-            <TransactionForm />
-          ) : (
-            <TransactionsTable 
-              transactions={transactions as unknown as AccountTransactionsData[]} 
-              refetchData={refresh}
-            />
-          )}
+      <div className="flex-grow p-4 pt-24 md:grid md:grid-cols-2 md:gap-4 w-auto sm: pl-4">
+        <div className="flex flex-col gap-4">
+          <AccountInfo
+            name={user?.name as string}
+            surname={user?.surname as string}
+            accountNumber={user?.accountNumber as string}
+            ledger={getAccount?.ledger as any}
+          />
+          <TransactionForm />
+        </div>
+        <div className="flex-grow overflow-auto">
+          <AccountTransactionsTable transactions={transactions} accountNumber={user?.accountNumber as string} />
         </div>
       </div>
     </div>

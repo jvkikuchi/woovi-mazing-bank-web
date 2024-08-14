@@ -14,7 +14,9 @@ async function fetchQuery(
 ) {
   const token = `Bearer ${localStorage.getItem('TOKEN')}`
 
-  const response = await fetch('https://woovi-mazing-bank.fly.dev/graphql', {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const response = await fetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

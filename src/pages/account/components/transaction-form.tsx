@@ -20,7 +20,7 @@ import { NewTransactionMutation } from "@/api/mutations/new-transaction.mutation
 
 const transactionFormSchema = z.object({
     receiver: z.string(),
-    amount: z.string(),
+    amount: z.string().refine((value) => Number(value) > 0, "Amount must be greater than 0"),
 })
 
 export const TransactionForm = () => {

@@ -7,12 +7,12 @@ import { router } from './router'
 
 function App() {
   return (
-    <>
+    <div className="md: w-[auto] w-full h-screen">
       <RelayEnvironmentProvider environment={environment}>
           <RouterProvider router={router} />
           <Toaster />
       </RelayEnvironmentProvider>
-    </>
+    </div>
   )
 }
 
