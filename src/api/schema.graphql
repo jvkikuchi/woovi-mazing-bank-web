@@ -1,0 +1,61 @@
+schema {
+  query: Queries
+  mutation: Mutations
+}
+
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type AccountWithTransactions {
+  id: String
+  userId: String
+  number: String
+  balance: Int
+  ledger: [Ledger]
+  createdAt: String
+  updatedAt: String
+  deletedAt: String
+  transactions: [Transaction]
+}
+
+type GetUserType {
+  id: String
+  name: String
+  surname: String
+  email: String
+  createdAt: String
+  updatedAt: String
+  deletedAt: String
+}
+
+type Ledger {
+  value: Int
+  createdAt: String
+}
+
+type Mutations {
+  login(email: String, password: String): UserLoginType
+  createUser(name: String, surname: String, email: String, password: String): UserLoginType
+  newTransaction(senderAccountNumber: String!, receiverAccountNumber: String!, value: Int!): Transaction
+}
+
+type Queries {
+  getUser(id: String): GetUserType
+  getAccount(number: String): AccountWithTransactions
+}
+
+type Transaction {
+  id: String
+  senderAccountNumber: String
+  receiverAccountNumber: String
+  value: Float
+  createdAt: String
+}
+
+type UserLoginType {
+  token: String
+}
+
