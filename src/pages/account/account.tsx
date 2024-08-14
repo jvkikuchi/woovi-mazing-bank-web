@@ -1,10 +1,9 @@
-import { useState, useCallback, startTransition } from 'react';
+// import { useState, useCallback, startTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { TransactionForm } from "./components/transaction-form";
 import { getAccountQuery } from '@/api/__generated__/getAccountQuery.graphql';
 import { GetAccountQuery } from '@/api/queries/get-account';
 import { useLazyLoadQuery } from 'react-relay';
-import { AccountTransactionsData, TransactionsTable } from './components/transactions-table';
 import { useAuth } from '@/hooks/use-auth';
 import { useNavigate } from 'react-router';
 import { AccountInfo } from './components/account-info';
@@ -12,23 +11,25 @@ import { AccountTransactionsTable } from './components/test-table';
 
 export function Account() {
   const navigate = useNavigate();
-  const [view, setView] = useState<'form' | 'history'>('form');
-  const [refreshedQueryOptions, setRefreshedQueryOptions] = useState(null);
+  // const [refreshedQueryOptions, setRefreshedQueryOptions] = useState(null);
   const { user } = useAuth();
 
-  const refresh = useCallback(() => {
-    startTransition(() => {
-      setRefreshedQueryOptions(prev => ({
-        fetchKey: (prev?.fetchKey ?? 0) + 1,
-        fetchPolicy: 'network-only',
-      }));
-    });
-  }, []);
+  // const refresh = useCallback(() => {
+  //   startTransition(() => {
+  //     // @ts-expect-error- asdas
+  //     setRefreshedQueryOptions(prev => ({
+  //             // @ts-expect-error- asdas
+
+  //       fetchKey: (prev?.fetchKey ?? 0) + 1,
+  //       fetchPolicy: 'network-only',
+  //     }));
+  //   });
+  // }, []);
 
   const { getAccount } = useLazyLoadQuery<getAccountQuery>(
     GetAccountQuery,
     { accountNumber: user!.accountNumber! },
-    refreshedQueryOptions ?? {}
+    // refreshedQueryOptions ?? {}
   );
 
   const transactions = getAccount?.transactions ?? [];
@@ -49,12 +50,13 @@ export function Account() {
             name={user?.name as string}
             surname={user?.surname as string}
             accountNumber={user?.accountNumber as string}
-            ledger={getAccount?.ledger as any}
+            //@ts-expect-error - asdas
+            ledger={getAccount?.ledger as unknown as Record<string, unknown>}
           />
           <TransactionForm />
         </div>
         <div className="flex-grow overflow-auto">
-          <AccountTransactionsTable transactions={transactions} accountNumber={user?.accountNumber as string} />
+          <AccountTransactionsTable transactions={transactions as any} accountNumber={user?.accountNumber as string} />
         </div>
       </div>
     </div>

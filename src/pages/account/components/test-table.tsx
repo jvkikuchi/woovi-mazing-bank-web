@@ -80,11 +80,11 @@ export type SpecifiedTransactionsData = AccountTransactionsData & {
 export function AccountTransactionsTable({
     accountNumber,
     transactions,
-    refetchData
+    // refetchData
 }: {
     accountNumber: string;
     transactions: AccountTransactionsData[];
-    refetchData: () => void;
+    // refetchData: () => void;
 }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [specifiedTransactions, setSpecifiedTransactions] = React.useState<SpecifiedTransactionsData[]>([]);
