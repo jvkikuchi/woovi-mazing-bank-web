@@ -1,6 +1,6 @@
 import { CreateUserMutation } from "@/api/mutations/create-user.mutation"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -119,10 +119,10 @@ export const RegisterForm = () => {
         </CardHeader>
         <CardContent>
           <Form {...registerForm}>
-            <form onSubmit={registerForm.handleSubmit(registerFormOnSubmit)} className="space-y-2">
+            <form onSubmit={registerForm.handleSubmit(registerFormOnSubmit)}>
               <FormField control={registerForm.control} name="name" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="font-bold text-md">Name</FormLabel>
                   <FormControl>
                     <Input placeholder="John" {...field} />
                   </FormControl>
@@ -134,7 +134,7 @@ export const RegisterForm = () => {
               )} />
               <FormField control={registerForm.control} name="surname" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Surname</FormLabel>
+                  <FormLabel className="font-bold text-md">Surname</FormLabel>
                   <FormControl>
                     <Input placeholder="Doe" {...field} />
                   </FormControl>
@@ -146,7 +146,7 @@ export const RegisterForm = () => {
               )} />
               <FormField control={registerForm.control} name="email" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="font-bold text-md">Email</FormLabel>
                   <FormControl>
                     <Input placeholder="example@example.com" {...field} />
                   </FormControl>
@@ -159,7 +159,7 @@ export const RegisterForm = () => {
 
               <FormField control={registerForm.control} name="password" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="font-bold text-md">Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -172,7 +172,7 @@ export const RegisterForm = () => {
               />
               <FormField control={registerForm.control} name="confirmPassword" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password Confirmation</FormLabel>
+                  <FormLabel className="font-bold text-md">Password Confirmation</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -183,15 +183,13 @@ export const RegisterForm = () => {
                 </FormItem>
               )}
               />
-              {<Button type="submit" disabled={isLoading} className="w-full">
+              {<Button type="submit" disabled={isLoading} className="w-full font-bold text-md mt-6">
                 {isLoading ?
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Login"}
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Register"}
               </Button>}
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-        </CardFooter>
       </Card>
     </TabsContent>
   )

@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowLeft, ArrowLeftCircle, ArrowRight, ArrowRightCircle, ArrowUpDown } from "lucide-react"
+import { ArrowDown, ArrowLeft, ArrowLeftCircle, ArrowRight, ArrowRightCircle, ArrowUp, ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     Table,
@@ -22,49 +22,90 @@ import { useEffect } from "react"
 
 const columns: ColumnDef<SpecifiedTransactionsData>[] = [
     {
-        accessorKey: "senderAccountNumber",
-        header: "Sender Account",
-        cell: ({ row }) => <div>{row.original.senderAccountNumber}</div>,
+      accessorKey: "senderAccountNumber",
+      header: "Sender Account",
+      cell: ({ row }) => <div>{row.original.senderAccountNumber}</div>,
     },
     {
-        accessorKey: "receiverAccountNumber",
-        header: "Receiver Account",
-        cell: ({ row }) => <div>{row.original.receiverAccountNumber}</div>,
+      accessorKey: "receiverAccountNumber",
+      header: "Receiver Account",
+      cell: ({ row }) => <div>{row.original.receiverAccountNumber}</div>,
     },
     {
-        accessorKey: "type",
-        header: "Type",
-        cell: ({ row }) => {
-            const Icon = row.original.type === "outgoing" ? ArrowLeftCircle : ArrowRightCircle;
-            const color = row.original.type === "outgoing" ? "text-red-500" : "text-green-500";
-            return <Icon className={`h-5 w-5 ${color}`} />
-        },
+      accessorKey: "type",
+      header: "Type",
+      cell: ({ row }) => {
+        const isTypeOutgoing = row.original.type === "outgoing";
+        const Icon = isTypeOutgoing ? ArrowLeftCircle : ArrowRightCircle;
+        const color = isTypeOutgoing ? "text-red-500" : "text-green-500";
+        return <Icon className={`h-5 w-5 ${color}`} />;
+      },
     },
     {
-        accessorKey: "value",
-        header: () => <div>Value <ArrowUpDown className="ml-2 h-4 w-4" /></div>,
-        cell: ({ row }) => {
-            const value = row.original.value;
-            const formattedValue = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(value);
-            return (
-                <p className="font-bold">
-                    {formattedValue}
-                </p>
-            );
-        },
+      accessorKey: "value",
+      header: ({ column }) => {
+        const isSorted = column.getIsSorted();
+        return (
+          <Button
+            variant="ghost"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === "asc")
+            }
+          >
+            Value
+            {isSorted === "asc" ? (
+              <ArrowUp className="ml-2 h-4 w-4" />
+            ) : isSorted === "desc" ? (
+              <ArrowDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            )}
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const value = row.original.value;
+        const formattedValue = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(value);
+        return (
+          <p className="font-bold">
+            {formattedValue}
+          </p>
+        );
+      },
+      enableSorting: true,
     },
     {
-        accessorKey: "createdAt",
-        header: "Date",
-        cell: ({ row }) => {
-            const date = new Date(row.original.createdAt);
-            return <div>{date.toLocaleDateString()}</div>;
-        },
+      accessorKey: "createdAt",
+      header: ({ column }) => {
+        const isSorted = column.getIsSorted();
+        return (
+          <Button
+            variant="ghost"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === "asc")
+            }
+          >
+            Date
+            {isSorted === "asc" ? (
+              <ArrowUp className="ml-2 h-4 w-4" />
+            ) : isSorted === "desc" ? (
+              <ArrowDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            )}
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const date = new Date(row.original.createdAt);
+        return <div>{date.toLocaleDateString()}</div>;
+      },
+      enableSorting: true,
     },
-];
+  ];
 
 export type AccountTransactionsData = {
     receiverAccountNumber: string;
@@ -111,28 +152,9 @@ export function AccountTransactionsTable({
     })
 
     return (
-        <div className="w-full">
-            <div className="flex items-center justify-left space-x-2 mb-4">
-                <div className="space-x-2 md: mt-6">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        <ArrowRight className="h-4 w-4" />
-                    </Button>
-                </div>
-            </div>
-            <div className="rounded-md border overflow-hidden h-[498px] md: h-auto">
+        <>
+            <h3 className="font-bold text-2xl mb-4">Transactions</h3>
+            <div className="rounded-md border overflow-y-auto md:max-h-[406px] mt-6">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -174,6 +196,24 @@ export function AccountTransactionsTable({
                     </TableBody>
                 </Table>
             </div>
-        </div>
+            <div className="flex flex-row gap-4 mt-6 md:mt-6">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <ArrowRight className="h-4 w-4" />
+                    </Button>
+            </div>
+        </>
     )
 }

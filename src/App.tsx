@@ -7,12 +7,11 @@ import { router } from './router'
 
 function App() {
   return (
-    <div className="md: w-[auto] w-full h-screen">
-      <RelayEnvironmentProvider environment={environment}>
+    <RelayEnvironmentProvider environment={environment}>
+        {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
           <RouterProvider router={router} />
           <Toaster />
       </RelayEnvironmentProvider>
-    </div>
   )
 }
 

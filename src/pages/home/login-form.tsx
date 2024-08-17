@@ -126,7 +126,7 @@ export const LoginForm = () => {
                         <form onSubmit={loginForm.handleSubmit(loginFormOnSubmit)} className="space-y-8">
                             <FormField control={loginForm.control} name="email" render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel className="font-bold text-md">Email</FormLabel>
                                     <FormControl>
                                         <Input placeholder="example@example.com" {...field} />
                                     </FormControl>
@@ -138,7 +138,7 @@ export const LoginForm = () => {
                             )} />
                             <FormField control={loginForm.control} name="password" render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password</FormLabel>
+                                    <FormLabel className="font-bold text-md">Password</FormLabel>
                                     <FormControl>
                                         <Input type="password" placeholder="********" {...field} />
                                     </FormControl>
@@ -149,7 +149,7 @@ export const LoginForm = () => {
                                 </FormItem>
                             )}
                             />
-                            {<Button type="submit" disabled={isLoading} className="w-full">
+                            {<Button type="submit" disabled={isLoading} className="w-full font-bold text-md">
                                 {isLoading ?
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Login"}
                             </Button>}

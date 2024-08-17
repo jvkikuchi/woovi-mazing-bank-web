@@ -17,18 +17,23 @@ import { useAuth } from "@/hooks/use-auth"
 import { useMutation } from "react-relay"
 import { toast } from "@/components/ui/use-toast"
 import { NewTransactionMutation } from "@/api/mutations/new-transaction.mutation"
+import { Loader2 } from "lucide-react"
+import { useState } from "react"
 
 const transactionFormSchema = z.object({
     receiver: z.string(),
     amount: z.string().refine((value) => Number(value) > 0, "Amount must be greater than 0"),
 })
 
-export const TransactionForm = () => {
+export const TransactionForm = ({ refresh }: { refresh: () => void }) => {
     const [createTransactionMutation] = useMutation(NewTransactionMutation);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { user } = useAuth();
 
     const createTransactionOnSubmit = (input: z.infer<typeof transactionFormSchema>) => {
+        setIsLoading(true);
+
         createTransactionMutation({
             variables: {
                 receiverAccountNumber: input.receiver,
@@ -45,12 +50,14 @@ export const TransactionForm = () => {
                 return;
             },
             onCompleted: (response, errors) => {
-                if(!response) {
+                if (!response) {
                     toast({
                         variant: "destructive",
                         title: "Error Creating Transaction",
                         description: "Something went wrong, try again",
                     });
+
+                    setIsLoading(false);
 
                     return;
                 }
@@ -62,16 +69,19 @@ export const TransactionForm = () => {
                         description: errors[0].message,
                     });
 
+                    setIsLoading(false);
+
                     return;
                 }
-
-                console.log(response);
 
                 toast({
                     variant: "default",
                     title: "Transaction Created",
                     description: "Your transaction has been created successfully.",
                 });
+
+                setIsLoading(false);
+                refresh();
             },
         });
     };
@@ -117,7 +127,10 @@ export const TransactionForm = () => {
                             </FormItem>
                         )}
                         />
-                        <Button type="submit">Send</Button>
+                        {<Button type="submit" disabled={isLoading} className="w-full font-bold text-md">
+                            {isLoading ?
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Send"}
+                        </Button>}
                     </form>
                 </Form>
             </CardContent>

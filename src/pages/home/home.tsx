@@ -9,11 +9,10 @@ import { LoginForm } from "./login-form"
 
 export function Home() {
   return (
-    <>
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md space-y-8">
-        <h1 className="text-3xl font-bold text-center">Woovi-Mazing Bank</h1>
-        <p className="text-center text-gray-600">
-        </p>
+        <h1 className="text-3xl font-bold text-center mb-4">Woovi-Mazing Bank</h1>
+
       </div>
 
       <Tabs defaultValue="login" className="w-[400px]">
@@ -26,6 +25,6 @@ export function Home() {
           <RegisterForm />
         </div>
       </Tabs>
-    </>
+    </div>
   )
 }
