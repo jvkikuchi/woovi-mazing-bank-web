@@ -51,6 +51,8 @@ export const RegisterForm = () => {
   });
 
   const registerFormOnSubmit = (input: z.infer<typeof registerFormSchema>) => {
+    setIsLoading(true);
+
     createUserMutation({
       variables: {
         name: input.name,
@@ -101,9 +103,9 @@ export const RegisterForm = () => {
         localStorage.setItem("USER", JSON.stringify(userInfoFromToken));
         localStorage.setItem("TOKEN", token);
 
+        setIsLoading(false);
         navigate("/account");
 
-        setIsLoading(false);
       },
     });
   };
