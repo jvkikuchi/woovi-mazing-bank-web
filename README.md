@@ -27,7 +27,7 @@ Developed as part of the Woovi Challenge. Available at: https://github.com/woovi
 ## Stack
 
 ### Backend - [Check the backend repo](https://github.com/jvkikuchi/woovi-mazing-bank-server)
-- **Node.js**
+- **Node.js - 18**
 - **Koa.js**
 - **MongoDB**
 - **GraphQL**
@@ -42,16 +42,11 @@ Developed as part of the Woovi Challenge. Available at: https://github.com/woovi
 ## How to Run
 
 1. **Install Dependencies:**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Start**
-   \`\`\`bash
-   npm run start
-   \`\`\`
-
-4. **Run Tests:**
-   \`\`\`bash
-   npm run test
-   \`\`\`
+   ```bash
+   npm run dev
+   ```
