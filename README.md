@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+Woovi-Mazing Bank
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a simple replica of a bank, implementing core functionalities such as sending and receiving transactions, managing account balances, and providing a user-friendly interface to interact with these features. The backend is built using Node.js, Koa.js, MongoDB, and GraphQL, while the frontend leverages React and Relay.
 
-Currently, two official plugins are available:
+Developed as part of the Woovi Challenge. Available at: https://github.com/woovibr/jobs/blob/main/challenges/crud-bank-graphql-relay.md
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- **Missing Features**
+  - Since this is a simple replica of a bank, there are some features that are missing, such as:
+    - To only be able to send money if the account has enough balance. This can be implemented by adding a simple validation to check the account balance. For now it is possible to have
+    a negative balance.
+    - If the balance check existed, it would be nice to have a deposit button that would allow the user to deposit money into their account. Maybe creating a mocked credit card operation would be a good idea.
+    - To be abble to get a transaction by id, and rendering it in the frontend, with all the details.
+- **User Authentication:**
+  - **Login:** Secure login functionality for registered users.
+  - **Register:** New users can register and create an account.
 
-## Expanding the ESLint configuration
+- **Transactions:**
+  - **Send Transaction:** Users can send money to other accounts.
+  - **Receive Transaction:** Receive money from other accounts.
+  - **View Transactions:** Simple table displaying all transactions related to the user's account.
+  
+- **Account Management:**
+  - **Get Account Info:** View account details, including available balance.
+  - **Simple Chart:** Visual representation of account balance over time.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Stack
 
-- Configure the top-level `parserOptions` property like this:
+### Backend - [Check the frontend repo](https://github.com/jvkikuchi/woovi-mazing-bank-server)
+- **Node.js**
+- **Koa.js**
+- **MongoDB**
+- **GraphQL**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Frontend 
+- **React**
+- **Relay**
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Testing
+- **Jest**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## How to Run
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Install Dependencies:**
+   \`\`\`bash
+   npm install
+   \`\`\`
+
+2. **Start**
+   \`\`\`bash
+   npm run start
+   \`\`\`
+
+4. **Run Tests:**
+   \`\`\`bash
+   npm run test
+   \`\`\`
