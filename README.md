@@ -1,4 +1,4 @@
-Woovi-Mazing Bank
+# Woovi-Mazing Bank
 
 This project is a simple replica of a bank, implementing core functionalities such as sending and receiving transactions, managing account balances, and providing a user-friendly interface to interact with these features. The backend is built using Node.js, Koa.js, MongoDB, and GraphQL, while the frontend leverages React and Relay.
 
@@ -26,7 +26,7 @@ Developed as part of the Woovi Challenge. Available at: https://github.com/woovi
 
 ## Stack
 
-### Backend - [Check the frontend repo](https://github.com/jvkikuchi/woovi-mazing-bank-server)
+### Backend - [Check the backend repo](https://github.com/jvkikuchi/woovi-mazing-bank-server)
 - **Node.js**
 - **Koa.js**
 - **MongoDB**
