@@ -6,11 +6,11 @@ import PublicRoute from "./components/public-route";
 
 export const router = createBrowserRouter([
    {
-    path: "/",
-    element: <PublicRoute children={<Home />} />,
+      path: "/",
+      element: <PublicRoute children={<Home />} />,
    },
    {
       path: "/account",
-      element: <PrivateRoute children= {<Account />}/>,
+      element: <PrivateRoute children={<Account />} />,
    }
-  ]);
+]);
